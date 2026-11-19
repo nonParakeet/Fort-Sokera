@@ -58,6 +58,8 @@ export function registerBuilding(data) {
   buildings.push(building);
   writeRecords(KEYS.buildings, buildings);
 
+  notifyRegistryUpdate();
+
   return building;
 }
 
@@ -90,6 +92,8 @@ export function registerUnit(data) {
 
   units.push(unit);
   writeRecords(KEYS.units, units);
+
+  notifyRegistryUpdate();
 
   return unit;
 }
