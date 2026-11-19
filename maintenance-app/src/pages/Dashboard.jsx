@@ -1,6 +1,8 @@
 
-import Properties from "./Properties";
 import { useState } from "react";
+import Properties from "./Properties";
+import { getRegistryData } from "../services/propertyService";
+
 import {
     LayoutDashboard,
     Building2,
@@ -22,6 +24,7 @@ const navigation = [
 export default function Dashboard() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [activePage, setActivePage] = useState("Dashboard");
+    const [registry] = useState(getRegistryData);
 
     return (
         <div className="min-h-screen bg-slate-100 text-slate-800">
@@ -97,10 +100,10 @@ export default function Dashboard() {
                                     {/* Statistics */}
                                     <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
                                         {[
-                                            ["Properties", "2"],
-                                            ["Buildings", "0"],
-                                            ["Units", "0"],
-                                            ["Maintenance Requests", "0"],
+                                            ["Properties", registry.properties.length],
+                                            ["Buildings", registry.buildings.length],
+                                            ["Units", registry.units.length],
+                                            ["Maintenance Requests", 0],
                                         ].map(([label, value]) => (
                                             <div
                                                 key={label}

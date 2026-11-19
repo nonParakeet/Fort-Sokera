@@ -20,6 +20,20 @@ function writeRecords(key, records) {
   localStorage.setItem(key, JSON.stringify(records));
 }
 
+const REGISTRY_UPDATED = "livingstone:registry-updated";
+
+function notifyRegistryUpdate() {
+  window.dispatchEvent(new Event(REGISTRY_UPDATED));
+}
+
+export function subscribeToRegistryUpdates(callback) {
+  window.addEventListener(REGISTRY_UPDATED, callback);
+
+  return () => {
+    window.removeEventListener(REGISTRY_UPDATED, callback);
+  };
+}
+
 export function getRegistryData() {
   return {
     organization: ORGANIZATION,
@@ -71,6 +85,7 @@ export function registerUnit(data) {
   }
 
   const units = readRecords(KEYS.units);
+
   const unit = createUnit(data);
 
   units.push(unit);
@@ -105,10 +120,3 @@ export function getMaintenanceLocations() {
     })
     .filter((location) => location.propertyName);
 }
-
-////////////////////////////////
-
-console.log(
-  "Maintenance Locations:",
-  getMaintenanceLocations()
-);
